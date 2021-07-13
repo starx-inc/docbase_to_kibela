@@ -1,5 +1,7 @@
 class SyncDocbaseJob
   include Sidekiq::Worker
+  sidekiq_options queue: :default, retry: 3
+
   def perform(from_updated_at, request_path=nil)
     if request_path.nil?
       # 初回はUserの再取得を行う

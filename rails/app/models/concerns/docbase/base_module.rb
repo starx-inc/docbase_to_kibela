@@ -49,6 +49,11 @@ module Docbase::BaseModule
       @@rate_limit_remaining = response['X-RateLimit-Remaining'].to_i
       @@rate_limit_reset = Time.zone.at(response['X-RateLimit-Reset'].to_i)
       puts "requested:#{request_path} saved:#{file_path} #{@@rate_limit_remaining} more...until reset #{@@rate_limit_reset}"
+      if response.code == '429'
+        raise RateLimitException.new(@@rate_limit_reset, request_path)
+      elsif response.code != '200'
+        raise StandardError.new(response_body[:messages].join("\n"))
+      end
 
       open(file_path, 'wb'){|f|
         f.write(response.body)
