@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: comments
+#
+#  id                :bigint           not null, primary key
+#  post_id           :bigint           not null
+#  user_id           :bigint
+#  body              :text
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  kibela_id         :string
+#  kibela_updated_at :datetime
+#
 class Comment < ApplicationRecord
   belongs_to :post
   belongs_to :user, optional: true

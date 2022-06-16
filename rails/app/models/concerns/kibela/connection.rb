@@ -1,0 +1,2 @@
+class Kibela::Connection
+end

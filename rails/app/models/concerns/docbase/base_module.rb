@@ -58,6 +58,7 @@ module Docbase::BaseModule
       open(file_path, 'wb'){|f|
         f.write(response.body)
       }
+      file_path
     end
 
     def get(request_path)

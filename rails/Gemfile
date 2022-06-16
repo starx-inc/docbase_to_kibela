@@ -19,6 +19,8 @@ gem 'puma', '~> 4.1'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
+gem 'active_hash'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
@@ -26,6 +28,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # gem 'rack-cors'
 
 gem 'dotenv-rails'
+gem 'graphql-client'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -35,6 +38,7 @@ end
 group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  gem 'annotate'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
