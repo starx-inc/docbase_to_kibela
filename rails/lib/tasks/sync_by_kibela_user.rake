@@ -69,7 +69,7 @@ namespace :sync_by_kibela_user do
     adapter = ::Kibela::Adapter.new
     responses = adapter.get_users
     responses.data.users.nodes.each do |node|
-      hash = USER_HASH.select{ |hash| hash[:kibela_name] == node.account }
+      hash = SYNC_USER_HASH.select{ |hash| hash[:kibela_name] == node.account }
       if hash.present?
         # N+1許容
         user = User.find_by(docbase_name: hash[0][:docbase_name])
