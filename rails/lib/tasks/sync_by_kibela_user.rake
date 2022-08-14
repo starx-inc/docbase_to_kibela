@@ -23,12 +23,12 @@ namespace :sync_by_kibela_user do
     { docbase_name: "横岸澤", kibela_name: "t-yokogishizawa" },
     { docbase_name: "金城", kibela_name: "y-kinjo" },
     { docbase_name: "三宅哲子", kibela_name: "t-miyake_a24156aaf3" },
-    { docbase_name: "合田加奈", kibela_name: "k-gouda_d12ef0b029" },
+    { docbase_name: "合田 加奈", kibela_name: "k-gouda_d12ef0b029" },
     { docbase_name: "高松宗一郎", kibela_name: "s-takamatsu" },
     { docbase_name: "吉田美紀", kibela_name: "m-yoshida" },
     { docbase_name: "内山廉太", kibela_name: "r-uchiyama" },
     { docbase_name: "高橋", kibela_name: "h-takahashi" },
-    { docbase_name: "三浦紗耶加", kibela_name: "s-miura" },
+    { docbase_name: "三浦 紗耶加", kibela_name: "s-miura" },
     { docbase_name: "m-kikkawa", kibela_name: "dummy-user" },
     { docbase_name: "東郷早瑛", kibela_name: "dummy-user" },
     { docbase_name: "asahi", kibela_name: "dummy-user" },
@@ -66,19 +66,30 @@ namespace :sync_by_kibela_user do
   ]
   failures = []
   task :execute => :environment do
+    p "start"
     adapter = ::Kibela::Adapter.new
     responses = adapter.get_users
-    responses.data.users.nodes.each do |node|
-      hash = SYNC_USER_HASH.select{ |hash| hash[:kibela_name] == node.account }
-      if hash.present?
-        # N+1許容
-        user = User.find_by(docbase_name: hash[0][:docbase_name])
-        user.update(kibela_id: node.id)
+    not_exists = []
+    ActiveRecord::Base.transaction do
+      responses.data.users.nodes.each do |node|
+        hash = SYNC_USER_HASH.select{ |hash| hash[:kibela_name] == node.account }
+        if hash.present?
+          # N+1許容
+          user = User.find_by(docbase_name: hash[0][:docbase_name])
+          unless user
+            not_exists << node.account
+            next
+          end
+          user.update!(kibela_id: node.id)
+        end
+      end
+      # kibela_idがnilの場合はdummy-userのidに一括更新
+      dummy_users = User.where(kibela_id: nil)
+      dummy_users.each do |dummy_user|
+        dummy_user.update!(kibela_id: 'VXNlci82NjE')
       end
     end
-    # dummy_userを一律登録
-    User.where(kibela_id: nil).update_all(kibela_id: "VXNlci82NjE")
-  rescue => e
-    failures << { error: "#{e.class}: #{e.message}" }
+    p "does not exists users #{not_exists}"
+    p "completed"
   end
 end
