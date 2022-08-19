@@ -11,6 +11,7 @@
 #  updated_at        :datetime         not null
 #  kibela_id         :string
 #  kibela_updated_at :datetime
+#  kibela_path       :string
 #
 class AttachimentFile < ApplicationRecord
   include Docbase::BaseModule
