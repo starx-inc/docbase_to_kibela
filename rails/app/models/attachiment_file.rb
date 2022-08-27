@@ -89,7 +89,7 @@ class AttachimentFile < ApplicationRecord
   def upload_to_kibela!
     adapter = Kibela::Adapter.new
     response = adapter.craete_attachment(name, data_uri)
-    self.kibela_id = response.data.upload_attachment_with_data_url.attachment.path
+    self.kibela_path = response.data.upload_attachment_with_data_url.attachment.path
     self.save!
   end
 end

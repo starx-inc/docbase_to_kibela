@@ -6,10 +6,6 @@ module Kibela::Mutations::CreateAttachment
       uploadAttachmentWithDataUrl(input: $input) {
         clientMutationId,
         attachment {
-          id,
-          key,
-          size,
-          url,
           path
         }
       }
