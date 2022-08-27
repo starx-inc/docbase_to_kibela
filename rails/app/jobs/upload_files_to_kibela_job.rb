@@ -2,15 +2,15 @@ class UploadFilesToKibelaJob
   include Sidekiq::Worker
   sidekiq_options queue: :default, retry: 3
 
-  def perform
-    # target = AttachimentFile.where(kibela_id: nil).first
-    # target.upload_to_kibela!
-    # UploadFilesToKibelaJob.perform_in(1.second)
+  def perform(file)
+    file.upload_to_kibela!
   rescue Kibela::ApiError => api_error
     if api_error.only_rate_limit?
       UploadFilesToKibelaJob.perform_in(1800.second)
     else
       pp api_error
     end
+  rescue => e
+    p "file_id: #{file.id} #{e.inspect} error occurred"
   end
 end
