@@ -1,4 +1,4 @@
-class UploadFilesToKibelaJob
+class UploadFileToKibelaJob
   include Sidekiq::Worker
   sidekiq_options queue: :default, retry: 3
 
@@ -6,7 +6,7 @@ class UploadFilesToKibelaJob
     file.upload_to_kibela!
   rescue Kibela::ApiError => api_error
     if api_error.only_rate_limit?
-      UploadFilesToKibelaJob.perform_in(1800.second)
+      UploadFileToKibelaJob.perform_in(1800.second)
     else
       pp api_error
     end
