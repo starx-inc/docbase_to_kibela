@@ -12,7 +12,7 @@ namespace :rewrite_md_file_path do
             without_match_files << [file.id, post.id]
             next
           end
-          rewrite_post_body = post.body.gsub(regexp, replace_tag(post))
+          rewrite_post_body = post.body.gsub(regexp, replace_contents(post))
           post.update!(body: body)
         end
       end
@@ -28,7 +28,8 @@ namespace :rewrite_md_file_path do
     /!\[.*\]\(https:\/\/image.docbase.io\/uploads\/#{file_id}.*?\)/
   end
 
-  def replace_tag(file)
+  def replace_contents(file)
+    return file.drive_path if file.kibela_path.nil? && file.drive_path.present?
     "<img title='#{file.kibela_path}' alt='#{file.kibela_path}' src='#{file.kibela_path}' width='500' data-meta='{'width':500,'height':500}'>"
   end
 end
