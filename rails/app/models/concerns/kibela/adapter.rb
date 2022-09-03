@@ -1,4 +1,5 @@
 class Kibela::Adapter
+  include Kibela::Queries::Notes
   include Kibela::Queries::Users
   include Kibela::Queries::Groups
 
