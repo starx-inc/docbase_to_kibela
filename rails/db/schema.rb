@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_03_083253) do
+ActiveRecord::Schema.define(version: 2022_09_03_102237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,8 @@ ActiveRecord::Schema.define(version: 2022_09_03_083253) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "kibela_id"
     t.datetime "kibela_updated_at"
+    t.boolean "is_duplicated"
+    t.string "duplicated_url"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
