@@ -15,8 +15,8 @@ namespace :import_notes_from_kibela do
       responses.data.notes.nodes.each do |note|
         notes << { title: note.title, url: note.url, created_at: Time.now, updated_at: Time.now }
       end
-      has_next_page = responses.data.notes.pageInfo.hasNextPage
-      after = responses.data.notes.pageInfo.endCursor
+      has_next_page = responses.data.notes.to_h["pageInfo"]["hasNextPage"]
+      after = responses.data.notes.to_h["pageInfo"]["endCursor"]
       sleep 5.second
     end
     p 'completed request to kibela'
