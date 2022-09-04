@@ -7,7 +7,7 @@ namespace :rewrite_md_file_path do
     ActiveRecord::Base.transaction do
       AttachimentFile.preload(:post).find_each do |file|
         file_extension = file.id.split(".").last
-        regexp = file_regexp(file_extension, file.local_path.split("/").last)
+        regexp = file_regexp(file.name, file_extension, file.local_path.split("/").last)
         file.post.each do |post|
           unless regexp.match?(post.body)
             without_match_files << [file.id, post.id, regexp]
@@ -25,9 +25,9 @@ namespace :rewrite_md_file_path do
 
   private
 
-  def file_regexp(file_extension, file_id)
-    return /!\[.*\]\(https:\/\/image.docbase.io\/uploads\/#{file_id}.*?\)/ if is_img_file?(file_extension)
-    /\[!\[.*\]\(https:\/\/docbase.io\/file_attachments\/#{file_id}.*?\)/
+  def file_regexp(file_name, file_extension, file_id)
+    return /!\[#{file_name}]\(https:\/\/image.docbase.io\/uploads\/#{file_id}.*?\)/ if is_img_file?(file_extension)
+    /\[!\[#{file_name}]\(https:\/\/docbase.io\/file_attachments\/#{file_id}.*?\)/
   end
 
   def replace_contents(file_extension, file)
