@@ -8,7 +8,6 @@
 #  updated_at :datetime         not null
 #
 
-belongs_to :group
-
 class Folder < ApplicationRecord
+  belongs_to :group
 end
