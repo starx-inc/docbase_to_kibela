@@ -127,9 +127,10 @@ class Post < ApplicationRecord
     # 最初のグループを優先する
     group_ids = [groups&.first&.kibela_id || 'R3JvdXAvMQ']
     folders = [{ groupId: group_ids.first, folderName: groups&.first&.folders&.first&.name || '12. 移行記事' }]
-    author_id = user.kibela_id
+    author_id = user&.kibela_id || 'VXNlci82NjE'
     response = adapter.create_note(title, body, group_ids, folders, author_id)
-    self.kibela_id = 
+    self.kibela_id = response.data.create_note.note.id
+    self.kibela_url = response.data.create_note.note.url
     self.kibela_updated_at = Time.now
     self.save!
   end
