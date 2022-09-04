@@ -1,4 +1,4 @@
-namespace :rewrite_md_docbase_post_url.rake do
+namespace :rewrite_md_docbase_post_url do
   desc "rewrite md"
   task :execute => :environment do
     without_match_files = []    
@@ -26,8 +26,8 @@ namespace :rewrite_md_docbase_post_url.rake do
       return post.body.gsub(/https:\/\/starx.docbase.io\/posts\/#{post.id}/, post.kibela_url)
     end
 
-    if /\#{#{post_id}\}/.match?(post.body)
-      return post.body.gsub(/\#{#{post_id}\}/, post.kibela_url)
+    if /\#\{#{post.id}\}/.match?(post.body)
+      return post.body.gsub(/\#\{#{post.id}\}/, post.kibela_url)
     end
 
     return nil
