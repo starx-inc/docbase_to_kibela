@@ -12,16 +12,15 @@ namespace :check_duplicate_notes do
         end
       end
     end
-
-    private
-
-    def duplicated_notes(post, notes)
-      duplicated_notes = notes.select do |title|
-        note.title.include? post.title
-      end
-      duplicated_notes
-    end
-
     p 'completed'
+  end
+
+  private
+
+  def duplicated_notes(post, notes)
+    duplicated_notes = notes.select do |note|
+      note.title == post.title
+    end
+    duplicated_notes
   end
 end
