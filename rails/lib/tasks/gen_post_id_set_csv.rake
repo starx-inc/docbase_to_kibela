@@ -1,3 +1,5 @@
+require 'csv'
+
 namespace :gen_post_id_set_csv do
   desc 'generate csv'
   failures = []
