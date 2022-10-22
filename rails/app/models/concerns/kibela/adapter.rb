@@ -1,7 +1,9 @@
 class Kibela::Adapter
+  include Kibela::Queries::Notes
   include Kibela::Queries::Users
   include Kibela::Queries::Groups
 
+  include Kibela::Mutations::CreateNote
   include Kibela::Mutations::CreateDummyUser
   include Kibela::Mutations::CreateAttachment
 

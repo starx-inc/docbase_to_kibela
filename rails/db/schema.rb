@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_28_061836) do
+ActiveRecord::Schema.define(version: 2022_09_04_064239) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,14 @@ ActiveRecord::Schema.define(version: 2022_08_28_061836) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "folders", force: :cascade do |t|
+    t.string "name"
+    t.bigint "group_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id"], name: "index_folders_on_group_id"
+  end
+
   create_table "groups", force: :cascade do |t|
     t.bigint "post_id", null: false
     t.string "name"
@@ -47,6 +55,13 @@ ActiveRecord::Schema.define(version: 2022_08_28_061836) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "kibela_id"
     t.index ["post_id"], name: "index_groups_on_post_id"
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.string "title"
+    t.string "url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "post_attachiment_files", force: :cascade do |t|
@@ -68,6 +83,9 @@ ActiveRecord::Schema.define(version: 2022_08_28_061836) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "kibela_id"
     t.datetime "kibela_updated_at"
+    t.boolean "is_duplicated"
+    t.string "duplicated_url"
+    t.string "kibela_url"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -101,6 +119,7 @@ ActiveRecord::Schema.define(version: 2022_08_28_061836) do
 
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
+  add_foreign_key "folders", "groups"
   add_foreign_key "groups", "posts"
   add_foreign_key "post_attachiment_files", "attachiment_files"
   add_foreign_key "post_attachiment_files", "posts"
