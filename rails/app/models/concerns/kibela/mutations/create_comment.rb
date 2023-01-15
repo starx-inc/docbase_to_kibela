@@ -12,7 +12,7 @@ module Kibela::Mutations::CreateComment
     }
   GRAPHQL
   
-  def create_comment(title, commentable_id, content, author_id)
+  def create_comment(commentable_id, content, author_id)
     query(
       Mutation,
       variables: {
