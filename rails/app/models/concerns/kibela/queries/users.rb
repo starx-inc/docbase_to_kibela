@@ -7,7 +7,6 @@ module Kibela::Queries::Users
         nodes {
           id
           account
-          email
         },
         pageInfo {
           endCursor
