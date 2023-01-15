@@ -26,4 +26,17 @@ class Comment < ApplicationRecord
     }
     self
   end
+
+  def upload_to_kibela!
+    adapter = Kibela::Adapter.new
+    commentable_id = post.kibela_id
+    content = body
+    # 退会済ユーザーはdummy_userとする
+    author_id = user&.kibela_id || 'VXNlci82NjE'
+    response = adapter.create_comment(title, commentable_id, content, author_id)
+    self.kibela_id = response.data.create_comment.comment.id
+    self.kibela_url = response.data.create_comment.comment.path
+    self.kibela_updated_at = Time.now
+    self.save!
+  end
 end
