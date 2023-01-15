@@ -1,6 +1,6 @@
 class UploadCommentToKibelaJob
   include Sidekiq::Worker
-  sidekiq_options queue: :default, retry: 3
+  sidekiq_options queue: :default, retry: false
 
   def perform(post_id)
     comment = Comment.find(post_id)
