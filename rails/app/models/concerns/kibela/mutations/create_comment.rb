@@ -2,10 +2,10 @@ module Kibela::Mutations::CreateComment
   extend ActiveSupport::Concern
   
   Mutation = Kibela::Client::Client.parse <<-'GRAPHQL'
-    mutation createComment($input: CreateCommentInput!) {
+    mutation ($input: CreateCommentInput!) {
       createComment(input: $input) {
         comment {
-          id
+          id,
           path
         }
       }
