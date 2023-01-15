@@ -4,6 +4,7 @@ class Kibela::Adapter
   include Kibela::Queries::Groups
 
   include Kibela::Mutations::CreateNote
+  include Kibela::Mutations::CreateComment
   include Kibela::Mutations::CreateDummyUser
   include Kibela::Mutations::CreateAttachment
 
