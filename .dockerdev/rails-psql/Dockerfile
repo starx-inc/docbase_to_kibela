@@ -13,7 +13,7 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrad
   DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends curl gnupg2 &&\
   # ソースリストにPostgreSQLを追加
   curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - &&\
-  echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' $PG_MAJOR > /etc/apt/sources.list.d/pgdg.list &&\
+  echo 'deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main' $PG_MAJOR > /etc/apt/sources.list.d/pgdg.list &&\
   # ソースリストにNodeJSを追加
   curl -sL https://deb.nodesource.com/setup_$NODE_MAJOR.x | bash - &&\
   # ソースリストにYarnを追加
